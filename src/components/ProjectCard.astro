@@ -3,40 +3,48 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   project: CollectionEntry<'projects'>;
+  index: number; // position on the page, shown as 01, 02...
 }
 
-const { project } = Astro.props;
-const { title, summary, tags, cover, coverAlt, video, poster, status, note } = project.data;
+const { project, index } = Astro.props;
+const { title, summary, tags, video, poster, cover, coverAlt, status, note } = project.data;
 const comingNext = status === 'coming-next';
 const href = `/projects/${project.id}/`;
+const num = String(index + 1).padStart(2, '0');
 ---
 {comingNext ? (
-  <li class="project coming">
-    <div>
-      <p class="status">Coming next</p>
+  <li>
+    <article class="card soon">
+      <div class="num" aria-hidden="true">{num}</div>
+      {note && <span class:list={['badge', 'label', { planned: note === 'Planned' }]}>{note}</span>}
       <h3>{title}</h3>
-      <p class="summary">{summary}</p>
-    </div>
+      <p>{summary}</p>
+      {tags.length > 0 && <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>}
+      <span class="when label">Coming soon</span>
+    </article>
   </li>
 ) : (
-  <li class="project">
-    {/* The media is a second link to the same page: hidden from screen readers and the tab order, the title link is the one they use. */}
-    {(video || cover) && (
-      <a class="project-media" href={href} tabindex="-1" aria-hidden="true">
-        {video ? (
-          <video class="motion" muted playsinline loop autoplay preload="metadata" poster={poster}>
-            <source src={video} type="video/mp4" />
-          </video>
-        ) : (
-          <img class="cad" src={cover} alt={coverAlt ?? ''} loading="lazy" decoding="async" />
-        )}
-      </a>
-    )}
-    <div>
-      {tags.length > 0 && <p class="stack">{tags.join(', ')}</p>}
-      <h3><a href={href}>{title}</a></h3>
-      <p class="summary">{summary}</p>
-      {note && <p class="status">{note}</p>}
-    </div>
+  <li class="featured">
+    <article class="card linked featured">
+      {(video || cover) && (
+        <div class="media">
+          {video ? (
+            <video muted playsinline loop autoplay preload="metadata" poster={poster} aria-hidden="true">
+              <source src={video} type="video/mp4" />
+            </video>
+          ) : (
+            <img src={cover} alt={coverAlt ?? ''} loading="lazy" decoding="async" style="object-fit:contain;padding:12px" />
+          )}
+        </div>
+      )}
+      <div class="body">
+        <div class="num" aria-hidden="true">{num}</div>
+        <h3><a href={href}>{title}</a></h3>
+        <p>{summary}</p>
+        {note && <p class="status label">{note}</p>}
+        {tags.length > 0 && <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>}
+        <span class="go label" aria-hidden="true">View project</span>
+      </div>
+    </article>
   </li>
 )}

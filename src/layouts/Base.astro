@@ -1,5 +1,7 @@
 ---
 import '@fontsource-variable/archivo/wdth.css'; // self-hosted font, width 62-125 % and weight 100-900
+import '@fontsource/ibm-plex-mono/400.css'; // self-hosted mono for labels, tags and skills
+import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/global.css';
 import { site } from '../site';
 
@@ -30,10 +32,11 @@ const year = new Date().getFullYear();
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     {ogImage && <meta property="og:image" content={ogImage} />}
-    <!-- Apply the saved theme before paint, so the page does not flash. Stored only in this browser. -->
+    <!-- The site is dark unless the visitor picked light (stored only in this browser) or the link says ?theme=light.
+         Applied before paint, so the page does not flash. -->
     <script is:inline>
       try {
-        const t = localStorage.getItem('theme');
+        const t = new URLSearchParams(location.search).get('theme') || localStorage.getItem('theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
       } catch (e) {}
     </script>
@@ -45,6 +48,7 @@ const year = new Date().getFullYear();
         <a class="brand" href="/">{site.name}</a>
         <nav class="nav" aria-label="Main">
           <a href="/#projects">Projects</a>
+          <a href="/#about">About</a>
           <a href="/#contact">Contact</a>
           {site.resume && <a href={site.resume}>Resume</a>}
           <a href={site.github}>GitHub</a>
@@ -77,8 +81,7 @@ const year = new Date().getFullYear();
       }
       document.querySelector('.theme-toggle').addEventListener('click', () => {
         const root = document.documentElement;
-        const current = root.dataset.theme ||
-          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const current = root.dataset.theme || 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
         root.dataset.theme = next;
         try { localStorage.setItem('theme', next); } catch (e) {}

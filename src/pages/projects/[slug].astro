@@ -12,12 +12,12 @@ const { title, summary, tags, video, videoCaption, poster, images, facts, repo, 
 const { Content } = await render(project);
 ---
 <Base title={title} description={summary} image={cover}>
-  <a class="back" href="/#projects">← All projects</a>
+  <a class="back label" href="/#projects">← All projects</a>
 
   <header class="project-head">
     <h1>{title}</h1>
     <p class="summary">{summary}</p>
-    {note && <p class="status">{note}</p>}
+    {note && <p class="status label">{note}</p>}
   </header>
 
   {video && (
@@ -53,9 +53,9 @@ const { Content } = await render(project);
   {repo && (
     <aside class="repo-cta">
       <p>Code, CAD files, every validation script and the engineering decisions are in the repository.</p>
-      <a class="button primary" href={repo}>View the repository on GitHub</a>
+      <a class="button solid" href={repo}>View the repository on GitHub</a>
     </aside>
   )}
 
-  {tags.length > 0 && <p class="tag-line">{tags.join(', ')}</p>}
+  {tags.length > 0 && <ul class="tags tag-line">{tags.map((t) => <li>{t}</li>)}</ul>}
 </Base>
