@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { title, summary, tags, video, videoCaption, images, facts, repo, note, cover } = project.data;
+const { title, summary, tags, video, videoCaption, poster, images, facts, repo, note, cover } = project.data;
 const { Content } = await render(project);
 ---
 <Base title={title} description={summary} image={cover}>
@@ -17,12 +17,12 @@ const { Content } = await render(project);
   <header class="project-head">
     <h1>{title}</h1>
     <p class="summary">{summary}</p>
-    {note && <span class="badge">{note}</span>}
+    {note && <p class="status">{note}</p>}
   </header>
 
   {video && (
     <figure class="video">
-      <video controls muted playsinline loop autoplay preload="metadata" aria-label={videoCaption ?? title}>
+      <video controls muted playsinline loop autoplay preload="metadata" poster={poster} aria-label={videoCaption ?? title}>
         <source src={video} type="video/mp4" />
       </video>
       {videoCaption && <figcaption>{videoCaption}</figcaption>}
@@ -57,5 +57,5 @@ const { Content } = await render(project);
     </aside>
   )}
 
-  {tags.length > 0 && <ul class="tags" style="margin-top:1.5rem">{tags.map((t) => <li>{t}</li>)}</ul>}
+  {tags.length > 0 && <p class="tag-line">{tags.join(', ')}</p>}
 </Base>

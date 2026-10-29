@@ -6,32 +6,37 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, summary, tags, cover, coverAlt, status } = project.data;
+const { title, summary, tags, cover, coverAlt, video, poster, status, note } = project.data;
 const comingNext = status === 'coming-next';
+const href = `/projects/${project.id}/`;
 ---
 {comingNext ? (
-  <li class="card coming">
-    <div class="card-body">
-      <span class="badge">Coming next</span>
+  <li class="project coming">
+    <div>
+      <p class="status">Coming next</p>
       <h3>{title}</h3>
-      <p>{summary}</p>
+      <p class="summary">{summary}</p>
     </div>
   </li>
 ) : (
-  <li class="card">
-    <a class="card-link" href={`/projects/${project.id}/`}>
-      {cover && (
-        <div class="card-media">
-          <img src={cover} alt={coverAlt ?? ''} loading="lazy" decoding="async" />
-        </div>
-      )}
-      <div class="card-body">
-        <h3>{title}</h3>
-        <p>{summary}</p>
-        {tags.length > 0 && (
-          <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>
+  <li class="project">
+    {/* The media is a second link to the same page: hidden from screen readers and the tab order, the title link is the one they use. */}
+    {(video || cover) && (
+      <a class="project-media" href={href} tabindex="-1" aria-hidden="true">
+        {video ? (
+          <video class="motion" muted playsinline loop autoplay preload="metadata" poster={poster}>
+            <source src={video} type="video/mp4" />
+          </video>
+        ) : (
+          <img class="cad" src={cover} alt={coverAlt ?? ''} loading="lazy" decoding="async" />
         )}
-      </div>
-    </a>
+      </a>
+    )}
+    <div>
+      {tags.length > 0 && <p class="stack">{tags.join(', ')}</p>}
+      <h3><a href={href}>{title}</a></h3>
+      <p class="summary">{summary}</p>
+      {note && <p class="status">{note}</p>}
+    </div>
   </li>
 )}

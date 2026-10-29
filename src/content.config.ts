@@ -15,6 +15,7 @@ const projects = defineCollection({
     coverAlt: z.string().optional(),
     video: z.string().optional(), // mp4 in public/, shown at the top of the page
     videoCaption: z.string().optional(),
+    poster: z.string().optional(), // still frame for the video: shown before it loads and when the visitor prefers less motion
     images: z.array(z.object({ src: z.string(), alt: z.string(), caption: z.string().optional() })).default([]),
     facts: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
     repo: z.string().url().optional(),

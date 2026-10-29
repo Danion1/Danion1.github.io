@@ -7,6 +7,7 @@ note: Simulated only · not built yet
 cover: /media/robot-arm/arm_cad.png
 coverAlt: CAD assembly of the arm, with a printed tripod base, blue link plates around the servos and a rack-and-pinion gripper
 video: /media/robot-arm/pick_and_place.mp4
+poster: /media/robot-arm/pick_and_place_poster.jpg
 videoCaption: Pick and place in Gazebo. The arm picks a 20 mm cube, checks the grasp and places it on the other side (34 s).
 images:
   - src: /media/robot-arm/arm_cad.png
