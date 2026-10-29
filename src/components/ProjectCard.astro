@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, tags, cover, coverAlt, status } = project.data;
+const comingNext = status === 'coming-next';
+---
+{comingNext ? (
+  <li class="card coming">
+    <div class="card-body">
+      <span class="badge">Coming next</span>
+      <h3>{title}</h3>
+      <p>{summary}</p>
+    </div>
+  </li>
+) : (
+  <li class="card">
+    <a class="card-link" href={`/projects/${project.id}/`}>
+      {cover && (
+        <div class="card-media">
+          <img src={cover} alt={coverAlt ?? ''} loading="lazy" decoding="async" />
+        </div>
+      )}
+      <div class="card-body">
+        <h3>{title}</h3>
+        <p>{summary}</p>
+        {tags.length > 0 && (
+          <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>
+        )}
+      </div>
+    </a>
+  </li>
+)}

@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', (p) => p.data.status === 'published');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { title, summary, tags, video, videoCaption, images, facts, repo, note, cover } = project.data;
+const { Content } = await render(project);
+---
+<Base title={title} description={summary} image={cover}>
+  <a class="back" href="/#projects">← All projects</a>
+
+  <header class="project-head">
+    <h1>{title}</h1>
+    <p class="summary">{summary}</p>
+    {note && <span class="badge">{note}</span>}
+  </header>
+
+  {video && (
+    <figure class="video">
+      <video controls muted playsinline loop autoplay preload="metadata" aria-label={videoCaption ?? title}>
+        <source src={video} type="video/mp4" />
+      </video>
+      {videoCaption && <figcaption>{videoCaption}</figcaption>}
+    </figure>
+  )}
+
+  {facts.length > 0 && (
+    <ul class="facts">
+      {facts.map((f) => <li><span class="value">{f.value}</span><span class="label">{f.label}</span></li>)}
+    </ul>
+  )}
+
+  {images.length > 0 && (
+    <div class="gallery">
+      {images.map((img) => (
+        <figure>
+          <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+          {img.caption && <figcaption>{img.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  )}
+
+  <article class="prose">
+    <Content />
+  </article>
+
+  {repo && (
+    <aside class="repo-cta">
+      <p>Code, CAD files, every validation script and the full engineering notes are in the repository.</p>
+      <a class="button primary" href={repo}>View the repository on GitHub</a>
+    </aside>
+  )}
+
+  {tags.length > 0 && <ul class="tags" style="margin-top:1.5rem">{tags.map((t) => <li>{t}</li>)}</ul>}
+</Base>

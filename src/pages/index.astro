@@ -1,3 +1,35 @@
 ---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../site';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
-<p>ok</p>
+<Base>
+  <section class="intro">
+    <h1>Hi, I'm {site.shortName}.</h1>
+    <p class="lead">A Computer Science student in Brazil who designs and builds machines from scratch.</p>
+    <p>I love taking a project all the way from the first idea to something that actually works. Robots are where I started, but I want to go further and build all kinds of things, like drones, motors and even rockets.</p>
+    <p>Hardware costs money, so my machines live in simulation for now, but every part is designed to be built for real.</p>
+    <p>My main stack is ROS 2, Python, Gazebo and MoveIt 2. My favorite tools are CadQuery for CAD, Obsidian for my notes and Claude Code as my pair programmer.</p>
+  </section>
+
+  <section id="projects" aria-labelledby="projects-title">
+    <h2 id="projects-title">Projects</h2>
+    <ul class="cards">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </ul>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact</h2>
+    <p class="open-to">I'm open to on-site or remote roles, in Brazil or abroad.</p>
+    <ul class="contact-list">
+      <li><a class="button primary" href={`mailto:${site.email}`}>{site.email}</a></li>
+      <li><a class="button" href={site.linkedin}>LinkedIn</a></li>
+      <li><a class="button" href={site.github}>GitHub</a></li>
+      {site.resume && <li><a class="button" href={site.resume}>Resume (PDF)</a></li>}
+    </ul>
+  </section>
+</Base>
