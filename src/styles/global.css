@@ -1,4 +1,4 @@
-/* Colors are tokens. The site is dark; light only when the visitor picks it.
+/* Colors are tokens (v4 purple: the v3 orange swapped for violet). The site is dark; light only when the visitor picks it.
    --accent is the main color (name, button, bars, hover); --accent-2 the small labels and links. */
 :root {
   --bg: #0b1220;
@@ -7,9 +7,9 @@
   --ink: #e6ecf5;
   --muted: #8c99ad;
   --faint: #2a3850;  /* the big project numbers, before hover */
-  --accent: #fb923c; 
-  --on-accent: #1a0d02;
-  --accent-2: #7aa5ff;   
+  --accent: #c08bff;   /* violet, 7.5:1 on --bg */
+  --on-accent: #160829;
+  --accent-2: #7aa5ff;
   --grid: rgba(122, 165, 255, 0.045);
   --plate: #ffffff;  /* CAD renders have a white background: keep them on white in both themes */
   --max: 1120px;
@@ -25,7 +25,7 @@
   --ink: #0f1a2b;
   --muted: #56637a;
   --faint: #d3dae6;
-  --accent: #c2410c;
+  --accent: #7e22ce;
   --on-accent: #ffffff;
   --accent-2: #1f56d1;
   --grid: rgba(31, 86, 209, 0.06);
