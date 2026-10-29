@@ -2,6 +2,8 @@
 export const site = {
   name: 'Daniel Dos Santos Da Silva',
   shortName: 'Daniel',
+  // Short form for the header and the big title; the footer and page titles keep the full name.
+  displayName: 'Daniel S.',
   title: 'Daniel Dos Santos Da Silva · Robotics portfolio',
   description:
     'Portfolio of Daniel Dos Santos Da Silva, a Computer Science student in Brazil who designs and builds machines from scratch.',
