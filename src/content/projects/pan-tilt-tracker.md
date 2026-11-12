@@ -27,9 +27,9 @@ facts:
     value: 0.9°
   - label: dart exit speed
     value: 21.6 m/s
-  - label: hover hits at 2, 3, 4 m
-    value: 3–9 mm
-repo: https://github.com/Danion1/TODO-turret-repo
+  - label: miss at 3 m, after aim correction
+    value: 137 → 6 mm
+repo: https://github.com/Danion1/tracking-turret-ros2
 ---
 
 ## What it is
@@ -40,18 +40,19 @@ A pan-tilt turret that watches a drone through a webcam, keeps it in the middle 
 
 - **A commercial dart, not a printed one.** A printed dart would need a fit tighter than the printer can hold, and would be less safe. The launcher is printed; the dart is a standard foam dart.
 - **The turret's weight sits on a bearing.** The pan servo drives a 20-tooth pinion against a 40-tooth ring gear on a 6808 bearing, so the servo only turns the turret and does not carry it.
-- **Every mechanism moves in the simulation.** The gears, the flywheels and the rack that pushes the dart are real joints in Gazebo, and their ratios were measured there, not just assumed.
-- **Aim correction from a calculation.** The dart leaves below the camera and drops on its way. The first test shot passed 137 mm under a hovering drone at 3 m, as the calculation predicted, and the correction now hits it.
+- **Every mechanism moves in the simulation.** The gears, the flywheels and the rack that pushes the dart are real joints in Gazebo, and their ratios were measured there (pan gear −0.500000 over about 77 000 samples), not just assumed. Commands go to the motors, as on the hardware, and the driven parts follow.
+- **Aim correction from a calculation.** The dart leaves below the camera and drops on its way. The first shot passed 137 mm under a hovering drone at 3 m (the calculation predicted 145 mm). The turret now estimates the distance from the drone's width in pixels and corrects for both, and the miss dropped to 6 mm.
 
 ## How it was validated
 
 - **Detection:** the detector finds the drone in 99.6 % of the frames, 1.7 px from its true position on average.
 - **Tracking:** with the drone flying back and forth, the aim stays 0.9° off on average (1.7° at most), and the drone never leaves the image.
 - **Launcher:** the dart leaves at 21.6 m/s along the barrel; the full firing sequence takes about 1.35 s.
-- **Shots:** against a hovering drone at 2, 3 and 4 m, the dart hits within 3 to 9 mm of the aim point.
+- **Shots:** against a hovering drone, the corrected aim misses by 3 mm at 2 m, 6 mm at 3 m and 9 mm at 4 m. Against the drone at the end of its side-to-side path, the dart hits the body. The hovering shots are still to be re-run with the final version of the tracker.
 
 ## Limitations
 
 - Simulated only. Nothing has been printed or built yet, and the webcam is simulated.
+- In the simulation, the dart gets the measured flywheel rim speed on contact, with no slip and no air drag. The real launcher will be slower (the design estimate is 19.7 m/s).
 - The detector looks for the drone's color, so it needs a clean background.
 - There is no motion prediction yet: the turret fires where the drone is now, not where it will be. A Kalman filter is the next step.
