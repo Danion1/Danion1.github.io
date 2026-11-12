@@ -7,7 +7,8 @@ interface Props {
 }
 
 const { project, index } = Astro.props;
-const { title, summary, tags, video, poster, cover, coverAlt, status, note } = project.data;
+const { title, summary, tags, poster, cover, coverAlt, status, note, cardMedia } = project.data;
+const video = cardMedia === 'cover' && cover ? undefined : project.data.video;
 const comingNext = status === 'coming-next';
 const href = `/projects/${project.id}/`;
 const num = String(index + 1).padStart(2, '0');

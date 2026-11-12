@@ -14,6 +14,7 @@ const projects = defineCollection({
     cover: z.string().optional(), // image in public/, e.g. /media/robot-arm/arm_cad.png
     coverAlt: z.string().optional(),
     video: z.string().optional(), // mp4 in public/, shown at the top of the page
+    cardMedia: z.enum(['video', 'cover']).default('video'), // what the home card shows when both exist
     videoCaption: z.string().optional(),
     poster: z.string().optional(), // still frame for the video: shown before it loads and when the visitor prefers less motion
     images: z.array(z.object({ src: z.string(), alt: z.string(), caption: z.string().optional() })).default([]),
