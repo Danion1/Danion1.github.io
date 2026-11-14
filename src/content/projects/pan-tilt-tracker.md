@@ -17,6 +17,9 @@ images:
   - src: /media/pan-tilt-tracker/turret_cad_tilt.png
     alt: Side view of the turret with the launcher tilted 40 degrees up
     caption: Tilted 40° up. The webcam rides on the launcher, so it always looks where the dart goes.
+  - src: /media/pan-tilt-tracker/mechanisms_fusion.gif
+    alt: Fusion 360 animation showing up close the 20-tooth pinion turning the 40-tooth pan ring, the tilt, both flywheels and the rack-and-pinion pusher, then all of them together
+    caption: "The mechanisms up close: a kinematic animation in Fusion 360, not a physics test. The ratios measured there match the robot description (pan 2:1, flywheels opposite, rack 10 mm/rad) and the teeth do not collide; the physics is in the Gazebo videos."
   - src: /media/pan-tilt-tracker/shot_slow_motion.gif
     alt: Slow-motion shot in Gazebo, with a zoomed inset where the blue dart strikes the drone and drops
     caption: The same shot in 8× slow motion, with a 3× zoom on the drone.
